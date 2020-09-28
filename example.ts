@@ -5,7 +5,7 @@ import axios from "axios";
 
 declare global{
   interface Window{
-    puppeteerMutationListener: any
+    puppeteerMutationListener(removedContent: string | null, addedContent: string | null): void;
   }
 }
 
@@ -16,13 +16,14 @@ declare global{
   await page.exposeFunction('puppeteerMutationListener', (oldPrice, newPrice) => {
   const mutation = 
     axios({                                                
-      url: 'https://ice-buddha.herokuapp.com/v1/graphql', 
+      url: '[GRAPHQL_ENDPOINT]', 
       method: 'post',
       data: { query:
-        `mutation insert_choco($objects: [chocolates_insert_input!]!){
-          insert_chocolates(objects: $objects){
+        `mutation insert_obj($objects: [chocolates_insert_input!]!){
+          insert_price(objects: $objects){
             returning{
-              name
+              price
+              date
             }
           }
         }`, 
