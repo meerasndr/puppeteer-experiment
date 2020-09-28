@@ -1,5 +1,3 @@
-//const puppeteer = require('puppeteer');
-//const axios = require('axios');
 import puppeteer from "puppeteer";
 import axios from "axios";
 
