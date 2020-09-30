@@ -14,18 +14,21 @@ declare global{
   await page.exposeFunction('puppeteerMutationListener', (oldPrice, newPrice) => {
   const mutation = 
     axios({                                                
-      url: '[GRAPHQL_ENDPOINT]', 
+      url: 'http://localhost:8080/v1/graphql', 
       method: 'post',
       data: { query:
-        `mutation insert_obj($objects: [chocolates_insert_input!]!){
-          insert_price(objects: $objects){
-            returning{
-              price
+        `mutation puppeteerdiscounts($objects: [discount_watcher_insert_input!]!) {
+          insert_discount_watcher(objects: $objects) {
+            returning {
               date
+              id
+              oldprice
+              newprice
             }
           }
-        }`, 
-      variables: {"objects": {"name": `${newPrice}`}}
+        }
+        `, 
+      variables: {"objects": {"oldprice": `${oldPrice}`, "newprice": `${newPrice}`}}
   }
   }).then((result) => {
       console.log(JSON.stringify(result.data))
